@@ -1,0 +1,54 @@
+sku,categoria,marca,modelo,descripcion,capacidad,precio,stock,garantia_meses
+REF-001,Refrigeradora,Indurama,RI-289,"No Frost 2 puertas, acero inoxidable",280 L,1499.00,6,24
+REF-002,Refrigeradora,Indurama,RI-350,No Frost 2 puertas,340 L,1899.00,4,24
+REF-003,Refrigeradora,Indurama,RI-480,No Frost 2 puertas con dispensador de agua,450 L,2799.00,0,24
+REF-004,Refrigeradora,Mabe,RMA-250,Frost 2 puertas,250 L,1099.00,9,24
+REF-005,Refrigeradora,Mabe,RMP-300,No Frost 2 puertas,300 L,1599.00,3,24
+REF-006,Refrigeradora,Mabe,RMS-520,Side by Side No Frost,520 L,3299.00,2,24
+REF-007,Refrigeradora,LG,GT-29,No Frost Inverter 2 puertas,290 L,1799.00,8,24
+REF-008,Refrigeradora,LG,GT-37,No Frost Inverter 2 puertas,370 L,2399.00,5,24
+REF-009,Refrigeradora,LG,GS-65,Side by Side No Frost Inverter,650 L,4599.00,0,24
+REF-010,Refrigeradora,Samsung,RT-32,No Frost Digital Inverter 2 puertas,320 L,1899.00,7,24
+REF-011,Refrigeradora,Samsung,RT-38,No Frost Digital Inverter 2 puertas,380 L,2599.00,3,24
+REF-012,Refrigeradora,Samsung,RS-60,Side by Side Digital Inverter,600 L,4299.00,1,24
+REF-013,Refrigeradora,Bosch,KGN-36,"No Frost 2 puertas, congelador inferior",366 L,3999.00,2,24
+LAV-001,Lavadora,Indurama,LI-8,Carga superior,8 kg,899.00,12,24
+LAV-002,Lavadora,Indurama,LI-13,Carga superior,13 kg,1199.00,6,24
+LAV-003,Lavadora,Mabe,LMA-70,Carga superior,7 kg,799.00,10,24
+LAV-004,Lavadora,Mabe,LMH-17,Carga superior,17 kg,1399.00,0,24
+LAV-005,Lavadora,LG,WT-13,Carga superior Smart Inverter,13 kg,1499.00,5,24
+LAV-006,Lavadora,LG,WT-19,Carga superior Smart Inverter,19 kg,1899.00,4,24
+LAV-007,Lavadora,LG,F4-10,Carga frontal Inverter Direct Drive,10.5 kg,2399.00,3,24
+LAV-008,Lavadora,Samsung,WA-13,Carga superior Digital Inverter,13 kg,1599.00,7,24
+LAV-009,Lavadora,Samsung,WA-19,Carga superior Digital Inverter,19 kg,2099.00,0,24
+LAV-010,Lavadora,Samsung,WW-11,Carga frontal EcoBubble,11 kg,2699.00,2,24
+LAV-011,Lavadora,Bosch,WAJ-8,Carga frontal Serie 4,8 kg,2899.00,3,24
+COC-001,Cocina,Indurama,Parma,Cocina a gas con horno,4 hornillas,679.00,8,12
+COC-002,Cocina,Indurama,Florencia,Cocina a gas con horno y grill,5 hornillas,999.00,5,12
+COC-003,Cocina,Indurama,Venecia,"Cocina a gas con horno, acero inoxidable",6 hornillas,1399.00,0,12
+COC-004,Cocina,Indurama,Roma-E,Cocina a gas empotrable,4 hornillas,1199.00,6,12
+COC-005,Cocina,Mabe,EMC-4,Cocina a gas con horno,4 hornillas,649.00,10,12
+COC-006,Cocina,Mabe,Diamante,Cocina a gas con horno y grill,5 hornillas,949.00,4,12
+COC-007,Cocina,LG,LSG-5,Cocina a gas con horno,5 hornillas,1299.00,3,12
+COC-008,Cocina,Samsung,NX-58,Cocina a gas con horno de convección,5 hornillas,1599.00,2,12
+COC-009,Cocina,Bosch,HGA-4,Cocina a gas empotrable Serie 4,4 hornillas,2199.00,2,12
+COC-010,Cocina,Bosch,PIE-4,Encimera de inducción,4 zonas,3199.00,1,12
+CLI-001,Aire acondicionado,LG,Dual Inverter 9,"Split Dual Inverter, frío",9000 BTU,1799.00,6,24
+CLI-002,Aire acondicionado,LG,Dual Inverter 12,"Split Dual Inverter, frío",12000 BTU,2299.00,4,24
+CLI-003,Aire acondicionado,LG,Dual Inverter 18,"Split Dual Inverter, frío",18000 BTU,3199.00,0,24
+CLI-004,Aire acondicionado,Samsung,WindFree 12,"Split WindFree Inverter, frío/calor",12000 BTU,2499.00,5,24
+CLI-005,Aire acondicionado,Samsung,WindFree 18,"Split WindFree Inverter, frío/calor",18000 BTU,3499.00,2,24
+CLI-006,Aire acondicionado,Mabe,MS-9,"Split on/off, frío",9000 BTU,1399.00,8,24
+CLI-007,Aire acondicionado,Mabe,MI-12,"Split Inverter, frío",12000 BTU,1899.00,3,24
+CLI-008,Aire acondicionado,Bosch,Climate 5000-12,"Split Inverter, frío",12000 BTU,2799.00,2,24
+CLI-009,Aire acondicionado,Bosch,Climate 5000-18,"Split Inverter, frío",18000 BTU,3899.00,1,24
+TV-001,Televisor,LG,UR78-43,Smart TV 4K UHD,43 in,1399.00,9,12
+TV-002,Televisor,LG,UR78-50,Smart TV 4K UHD,50 in,1699.00,6,12
+TV-003,Televisor,LG,QNED-55,Smart TV QNED 4K,55 in,2599.00,4,12
+TV-004,Televisor,LG,QNED-65,Smart TV QNED 4K,65 in,3799.00,0,12
+TV-005,Televisor,LG,OLED-55,Smart TV OLED evo 4K,55 in,5299.00,2,12
+TV-006,Televisor,Samsung,CU-43,Smart TV Crystal UHD 4K,43 in,1299.00,10,12
+TV-007,Televisor,Samsung,CU-55,Smart TV Crystal UHD 4K,55 in,1899.00,7,12
+TV-008,Televisor,Samsung,CU-65,Smart TV Crystal UHD 4K,65 in,2899.00,3,12
+TV-009,Televisor,Samsung,QLED-55,Smart TV QLED 4K,55 in,3199.00,4,12
+TV-010,Televisor,Samsung,NEO-75,Smart TV Neo QLED 4K,75 in,6499.00,0,12
