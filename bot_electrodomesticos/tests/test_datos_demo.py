@@ -46,8 +46,12 @@ def test_cantidad_y_cobertura_de_categorias(prods):
 
 
 def test_marcas_pedidas_y_sku_unicos(prods):
-    assert {"LG", "Samsung", "Mabe", "Indurama", "Bosch"} <= {p.marca for p in prods}
+    assert {"LG", "Samsung", "Mabe", "Indurama", "Bosch", "Sony"} <= {p.marca for p in prods}
     assert len({p.sku for p in prods}) == len(prods)
+
+
+def test_televisores_solo_lg_samsung_y_sony(prods):
+    assert {p.marca for p in prods if p.categoria == "Televisor"} == {"LG", "Samsung", "Sony"}
 
 
 def test_stock_variado_con_algunos_en_cero(prods):

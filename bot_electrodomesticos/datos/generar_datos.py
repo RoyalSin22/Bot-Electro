@@ -85,6 +85,10 @@ _CATALOGO = [
     ("Televisor", "Samsung", "CU-65", "Smart TV Crystal UHD 4K", "65 in", 2899, 3),
     ("Televisor", "Samsung", "QLED-55", "Smart TV QLED 4K", "55 in", 3199, 4),
     ("Televisor", "Samsung", "NEO-75", "Smart TV Neo QLED 4K", "75 in", 6499, 0),
+    ("Televisor", "Sony", "X75-50", "Smart TV Google TV 4K", "50 in", 1899, 5),
+    ("Televisor", "Sony", "X80-55", "Smart TV Google TV 4K", "55 in", 2399, 6),
+    ("Televisor", "Sony", "X80-65", "Smart TV Google TV 4K", "65 in", 3399, 0),
+    ("Televisor", "Sony", "A80-55", "Smart TV OLED Google TV 4K", "55 in", 5799, 1),
 ]
 
 # (fecha_compra, categoria, indice dentro de la categoría (1-based), cliente)
