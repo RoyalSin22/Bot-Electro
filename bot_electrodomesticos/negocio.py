@@ -259,6 +259,34 @@ def producto_por_sku(catalogo: list[Producto], sku: str) -> Producto | None:
     return next((p for p in catalogo if normalizar(p.sku) == normalizar(sku)), None)
 
 
+def _alnum(texto) -> str:
+    return re.sub(r"[^a-z0-9]", "", normalizar(texto))
+
+
+def productos_mencionados(catalogo: list[Producto], texto: str) -> list[Producto]:
+    """Productos cuyo modelo o SKU aparece escrito en el mensaje (p. ej. 'WT-19',
+    'wt19', 'LAV-006'). Resuelve en código, sin pedirle al modelo que adivine."""
+    t = _alnum(texto)
+    return [
+        p for p in catalogo
+        if (len(_alnum(p.modelo)) >= 4 and _alnum(p.modelo) in t) or _alnum(p.sku) in t
+    ]
+
+
+def resultado_para_productos(catalogo: list[Producto], productos: list[Producto]) -> ResultadoBusqueda:
+    """Mismo contrato que buscar_productos, para productos ya identificados."""
+    if not productos:
+        return ResultadoBusqueda(EstadoBusqueda.NO_MANEJADO)
+    con_stock = sorted((p for p in productos if p.stock > 0), key=_por_precio)
+    if con_stock:
+        return ResultadoBusqueda(EstadoBusqueda.DISPONIBLES, tuple(con_stock[:MAX_OPCIONES]))
+    return ResultadoBusqueda(
+        EstadoBusqueda.SIN_STOCK,
+        tuple(sorted(productos, key=_por_precio)[:MAX_OPCIONES]),
+        alternativas_misma_categoria(catalogo, productos),
+    )
+
+
 # --------------------------------------------------------------------------
 # Cuotas (amortización francesa)
 # --------------------------------------------------------------------------
