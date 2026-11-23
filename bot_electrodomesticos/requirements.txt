@@ -1,0 +1,7 @@
+# Fase 1 solo necesita pytest. El resto se usa desde las fases 2-4.
+fastapi>=0.110
+uvicorn>=0.29
+httpx>=0.27
+gspread>=6.0
+google-auth>=2.29
+pytest>=8.0
