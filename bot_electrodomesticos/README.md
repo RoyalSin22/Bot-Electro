@@ -41,6 +41,10 @@ La hoja debe tener las pestañas `Productos`, `Boletas`, `Tickets`, `Conversacio
 `Derivaciones` y `Config` con los encabezados de `sheets.ENCABEZADOS`.
 
 ### 3. Meta (WhatsApp Cloud API)
+> No necesitas la app WhatsApp Business ni registrar tu número: Meta da un **número de prueba gratuito**.
+> Tu WhatsApp personal solo actúa como cliente (destinatario autorizado) que le escribe a ese número.
+> Si no quieres usar ni tu celular, usa el simulador local (`python simulador.py`).
+
 1. <https://developers.facebook.com> → crear app (tipo *Business*) → añadir el producto **WhatsApp**.
 2. *WhatsApp → API Setup*: Meta da un **número de prueba**. Copia el *Phone number ID* → `WHATSAPP_PHONE_ID`
    y el *token temporal* (dura 24 h) → `WHATSAPP_TOKEN`.
