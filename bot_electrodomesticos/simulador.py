@@ -17,6 +17,7 @@ import os
 import sys
 from typing import Callable, Iterable
 
+from config import cargar_dotenv
 from flujo import Bot
 from ia import GeminiClient
 from sheets import ENCABEZADOS, HojaGoogle, HojaSimulada, Repositorio
@@ -61,6 +62,7 @@ def _entrada() -> Iterable[str]:
 
 
 def main() -> int:
+    cargar_dotenv()
     ap = argparse.ArgumentParser()
     ap.add_argument("--hoja-real", action="store_true")
     ap.add_argument("--telefono", default="51900000000")

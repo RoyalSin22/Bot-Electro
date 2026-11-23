@@ -13,6 +13,7 @@ from dataclasses import dataclass, field
 from decimal import Decimal
 from pathlib import Path
 
+from config import cargar_dotenv
 import ia
 import negocio as n
 
@@ -100,6 +101,7 @@ def evaluar(cliente: ia.GeminiClient, mensajes: list[dict], pausa: float = 0.0) 
 
 
 def main() -> int:
+    cargar_dotenv()
     clave = os.environ.get("GEMINI_API_KEY", "")
     if not clave:
         print("Falta GEMINI_API_KEY: no se puede evaluar contra el modelo real.", file=sys.stderr)
