@@ -15,6 +15,7 @@ class Settings:
     google_credentials_json: str
     whatsapp_app_secret: str = ""      # firma X-Hub-Signature-256 del webhook (recomendado)
     whatsapp_api_version: str = "v23.0"
+    numeros_permitidos: tuple = ()      # si no está vacío, el bot SOLO atiende estos números
 
 
 def cargar_settings() -> Settings:
@@ -29,4 +30,5 @@ def cargar_settings() -> Settings:
         google_credentials_json=os.environ.get("GOOGLE_CREDENTIALS_JSON", ""),
         whatsapp_app_secret=os.environ.get("WHATSAPP_APP_SECRET", ""),
         whatsapp_api_version=os.environ.get("WHATSAPP_API_VERSION", "v23.0"),
+        numeros_permitidos=tuple(x.strip() for x in os.environ.get("NUMEROS_PERMITIDOS", "").split(",") if x.strip()),
     )

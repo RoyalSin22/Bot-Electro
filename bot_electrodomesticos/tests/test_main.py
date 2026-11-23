@@ -140,3 +140,24 @@ def test_sin_configuracion_el_servicio_responde_503_pero_health_vive(monkeypatch
     assert c.get("/health").status_code == 200
     assert c.post("/webhook", content=b"{}").status_code == 503
     assert c.get("/webhook", params={"hub.mode": "subscribe", "hub.verify_token": "", "hub.challenge": "1"}).status_code == 403
+
+
+def test_solo_atiende_los_numeros_permitidos():
+    bot, w = BotFalso(), WaFalso()
+    s = Settings("", "", "", "t", "", "", whatsapp_app_secret=SECRETO, numeros_permitidos=("+51 999 111 222",))
+    c = TestClient(M.crear_app(M.Servicios(bot, w, s)))
+    post(c, cuerpo(msg("a", "51999111222", "soy yo"), msg("b", "51988777666", "soy un extraño")))
+    assert bot.textos == [("51999111222", "soy yo")]
+    assert w.enviados == [("51999111222", "eco: soy yo")]       # al extraño ni se le responde
+
+
+def test_lista_vacia_atiende_a_todos():
+    c, bot, _ = montar()
+    post(c, cuerpo(msg("a", "51988777666", "hola")))
+    assert len(bot.textos) == 1
+
+
+def test_numeros_permitidos_se_leen_del_entorno(monkeypatch):
+    import config
+    monkeypatch.setenv("NUMEROS_PERMITIDOS", " 51999111222 , 51988000000 ,")
+    assert config.cargar_settings().numeros_permitidos == ("51999111222", "51988000000")

@@ -17,6 +17,7 @@ from fastapi import BackgroundTasks, FastAPI, HTTPException, Request
 from fastapi.responses import PlainTextResponse
 
 import whatsapp as wa
+from negocio import mismo_telefono
 from config import Settings, cargar_settings
 
 log = logging.getLogger("bot.main")
@@ -113,7 +114,11 @@ def crear_app(servicios: Servicios | None = None) -> FastAPI:
             payload = json.loads(cuerpo)
         except ValueError:
             raise HTTPException(400, "JSON inválido")
+        permitidos = srv.settings.numeros_permitidos
         for m in wa.parsear_webhook(payload):
+            if permitidos and not any(mismo_telefono(m.telefono, p) for p in permitidos):
+                log.info("mensaje %s ignorado: número fuera de NUMEROS_PERMITIDOS", m.id)
+                continue
             if vistos.nuevo(m.id):
                 tareas.add_task(atender, srv, m)
         return {"status": "ok"}

@@ -335,3 +335,14 @@ def test_arnes_detecta_un_modelo_malo():
 def test_set_de_20_mensajes_contra_gemini_real():
     r = ev.evaluar(ia.GeminiClient(os.environ["GEMINI_API_KEY"]), ev.cargar_mensajes(), pausa=1.0)
     assert r.aprobado, "\n".join(r.fallos)
+
+
+def test_ejemplo_documentado_de_bp04_coincide_con_la_formula_real():
+    """La entrada de prueba de BP-04 debe usar cuotas que el código realmente calcula."""
+    from decimal import Decimal
+    import negocio as n
+    datos = json.loads(P.BP04.entrada_prueba)
+    precio = n.a_decimal(datos["precio"])
+    for c in datos["cuotas"]:
+        real = n.calcular_cuota(precio, Decimal("3.5"), c["plazo"])
+        assert c["cuota"] == n.formatear_soles(real.monto_cuota) and c["total"] == n.formatear_soles(real.total_a_pagar)

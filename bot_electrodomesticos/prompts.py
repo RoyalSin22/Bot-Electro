@@ -207,11 +207,11 @@ BP04 = Prompt(
         "producto": "LG WT-19",
         "precio": "S/ 1,899.00",
         "cuotas": [
-            {"plazo": 6, "cuota": "S/ 355.37", "total": "S/ 2,132.22"},
-            {"plazo": 12, "cuota": "S/ 196.51", "total": "S/ 2,358.12"},
+            {"plazo": 6, "cuota": "S/ 356.38", "total": "S/ 2,138.28"},
+            {"plazo": 12, "cuota": "S/ 196.52", "total": "S/ 2,358.24"},
         ],
     }, ensure_ascii=False),
-    salida_esperada="Menciona S/ 1,899.00, 6 y 12 cuotas con S/ 355.37 y S/ 196.51, y el total S/ 2,358.12; sin otros montos.",
+    salida_esperada="Menciona S/ 1,899.00, 6 y 12 cuotas con S/ 356.38 y S/ 196.52, y el total S/ 2,358.24; sin otros montos.",
 )
 
 BP06 = Prompt(
