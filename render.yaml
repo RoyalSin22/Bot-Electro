@@ -1,0 +1,27 @@
+# Blueprint de Render (capa gratuita). Las credenciales NO van aquí: se cargan en el panel.
+services:
+  - type: web
+    name: bot-electrodomesticos
+    runtime: python
+    plan: free
+    rootDir: bot_electrodomesticos
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.11.9"
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: WHATSAPP_TOKEN
+        sync: false
+      - key: WHATSAPP_PHONE_ID
+        sync: false
+      - key: WEBHOOK_VERIFY_TOKEN
+        sync: false
+      - key: WHATSAPP_APP_SECRET
+        sync: false
+      - key: GOOGLE_SHEET_ID
+        sync: false
+      - key: GOOGLE_CREDENTIALS_JSON
+        sync: false

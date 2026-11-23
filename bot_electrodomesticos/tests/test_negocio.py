@@ -158,6 +158,14 @@ def test_el_precio_sale_de_la_hoja_con_su_precision(catalogo):
 HOY = date(2026, 6, 1)
 
 
+def evaluar(num, boletas, catalogo, config, hoy, sku=None, telefono=None):
+    """Por defecto escribe el titular de la boleta; las pruebas de privacidad pasan otro número."""
+    if telefono is None:
+        titular = next((b for b in boletas if b.numero_boleta == num.strip().upper()), None)
+        telefono = titular.telefono if titular else "51900009999"
+    return n.evaluar_garantia(num, boletas, catalogo, config, hoy, sku, telefono=telefono)
+
+
 def test_suma_meses_ajusta_fin_de_mes():
     assert n.sumar_meses(date(2024, 1, 31), 1) == date(2024, 2, 29)   # bisiesto
     assert n.sumar_meses(date(2025, 1, 31), 1) == date(2025, 2, 28)
@@ -166,47 +174,47 @@ def test_suma_meses_ajusta_fin_de_mes():
 
 
 def test_garantia_vigente(boletas, catalogo, config):
-    r = n.evaluar_garantia("B001-0001", boletas, catalogo, config, hoy=HOY)  # vence 2027-01-15
+    r = evaluar("B001-0001", boletas, catalogo, config, hoy=HOY)  # vence 2027-01-15
     assert r.estado is EG.VIGENTE and r.vence == date(2027, 1, 15)
     assert r.requiere_ticket and r.costo_evaluacion is None
 
 
 def test_garantia_el_dia_de_vencimiento_aun_cubre(boletas, catalogo, config):
-    assert n.evaluar_garantia("B001-0001", boletas, catalogo, config, date(2027, 1, 15)).estado is EG.VIGENTE
-    r = n.evaluar_garantia("B001-0001", boletas, catalogo, config, date(2027, 1, 16))
+    assert evaluar("B001-0001", boletas, catalogo, config, date(2027, 1, 15)).estado is EG.VIGENTE
+    r = evaluar("B001-0001", boletas, catalogo, config, date(2027, 1, 16))
     assert r.estado is EG.VENCIDA
 
 
 def test_garantia_vencida_informa_costo_de_config(boletas, catalogo, config):
-    r = n.evaluar_garantia("B001-0003", boletas, catalogo, config, hoy=HOY)  # TV 12 m desde 2024-02-29
+    r = evaluar("B001-0003", boletas, catalogo, config, hoy=HOY)  # TV 12 m desde 2024-02-29
     assert r.estado is EG.VENCIDA and r.vence == date(2025, 2, 28)
     assert r.costo_evaluacion == D("50") and not r.requiere_ticket
 
 
 def test_garantia_costo_cambia_con_config(boletas, catalogo, config):
     config["costo_evaluacion_tecnica"] = "S/ 80.50"
-    assert n.evaluar_garantia("B001-0003", boletas, catalogo, config, HOY).costo_evaluacion == D("80.50")
+    assert evaluar("B001-0003", boletas, catalogo, config, HOY).costo_evaluacion == D("80.50")
 
 
 def test_garantia_boleta_inexistente(boletas, catalogo, config):
-    assert n.evaluar_garantia("B999-9999", boletas, catalogo, config, HOY).estado is EG.BOLETA_NO_ENCONTRADA
+    assert evaluar("B999-9999", boletas, catalogo, config, HOY).estado is EG.BOLETA_NO_ENCONTRADA
 
 
 def test_garantia_numero_de_boleta_ignora_mayusculas_y_espacios(boletas, catalogo, config):
-    assert n.evaluar_garantia(" b001-0001 ", boletas, catalogo, config, HOY).estado is EG.VIGENTE
+    assert evaluar(" b001-0001 ", boletas, catalogo, config, HOY).estado is EG.VIGENTE
 
 
 def test_garantia_sku_que_no_corresponde_a_la_boleta(boletas, catalogo, config):
-    r = n.evaluar_garantia("B001-0001", boletas, catalogo, config, HOY, sku="TV-001")
+    r = evaluar("B001-0001", boletas, catalogo, config, HOY, sku="TV-001")
     assert r.estado is EG.PRODUCTO_NO_COINCIDE and not r.requiere_ticket
 
 
 def test_garantia_sku_correcto_se_acepta(boletas, catalogo, config):
-    assert n.evaluar_garantia("B001-0001", boletas, catalogo, config, HOY, sku="ref-001").estado is EG.VIGENTE
+    assert evaluar("B001-0001", boletas, catalogo, config, HOY, sku="ref-001").estado is EG.VIGENTE
 
 
 def test_garantia_boleta_con_sku_fuera_de_catalogo(boletas, catalogo, config):
-    assert n.evaluar_garantia("B001-0004", boletas, catalogo, config, HOY).estado is EG.PRODUCTO_NO_EN_CATALOGO
+    assert evaluar("B001-0004", boletas, catalogo, config, HOY).estado is EG.PRODUCTO_NO_EN_CATALOGO
 
 
 def test_fecha_en_formato_dd_mm_aaaa(boletas):
@@ -215,4 +223,29 @@ def test_fecha_en_formato_dd_mm_aaaa(boletas):
 
 def test_vencida_sin_costo_en_config_falla_en_vez_de_inventar(boletas, catalogo):
     with pytest.raises(KeyError):
-        n.evaluar_garantia("B001-0003", boletas, catalogo, {}, HOY)
+        evaluar("B001-0003", boletas, catalogo, {}, HOY)
+
+
+# ------------------------------ privacidad: solo el titular ----------------
+def test_telefono_ajeno_se_trata_como_boleta_inexistente(boletas, catalogo, config):
+    r = evaluar("B001-0001", boletas, catalogo, config, HOY, telefono="51911111111")
+    assert r.estado is EG.BOLETA_NO_ENCONTRADA
+    assert r.boleta is None and r.producto is None and r.vence is None  # no filtra datos
+    inexistente = evaluar("B999-9999", boletas, catalogo, config, HOY, telefono="51911111111")
+    assert r == inexistente  # indistinguible de una boleta que no existe
+
+
+@pytest.mark.parametrize("tel", ["51900000001", "+51 900 000 001", "900000001", "51-900-000-001"])
+def test_telefono_titular_en_distintos_formatos(boletas, catalogo, config, tel):
+    assert evaluar("B001-0001", boletas, catalogo, config, HOY, telefono=tel).estado is EG.VIGENTE
+
+
+@pytest.mark.parametrize("tel", ["", "123", "abc", None])
+def test_telefono_vacio_o_invalido_no_autoriza(boletas, catalogo, config, tel):
+    r = n.evaluar_garantia("B001-0001", boletas, catalogo, config, HOY, telefono=tel)
+    assert r.estado is EG.BOLETA_NO_ENCONTRADA
+
+
+def test_telefono_es_obligatorio(boletas, catalogo, config):
+    with pytest.raises(TypeError):
+        n.evaluar_garantia("B001-0001", boletas, catalogo, config, HOY)
