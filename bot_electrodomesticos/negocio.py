@@ -358,6 +358,12 @@ class ResultadoGarantia:
         return self.estado is EstadoGarantia.VIGENTE
 
 
+def mismo_telefono(a: str, b: str) -> bool:
+    """Compara teléfonos por sus últimos 9 dígitos (tolera +51, espacios y guiones)."""
+    da, db = re.sub(r"\D", "", str(a)), re.sub(r"\D", "", str(b))
+    return len(da) >= 9 and len(db) >= 9 and da[-9:] == db[-9:]
+
+
 def evaluar_garantia(
     numero_boleta: str,
     boletas: list[Boleta],
@@ -365,11 +371,18 @@ def evaluar_garantia(
     config: dict[str, str],
     hoy: date,
     sku: str | None = None,
+    *,
+    telefono: str,
 ) -> ResultadoGarantia:
     """Vigente si hoy <= fecha_compra + garantia_meses (el día de vencimiento
-    aún cubre). `hoy` se inyecta para que sea comprobable."""
+    aún cubre). `hoy` se inyecta para que sea comprobable.
+
+    `telefono` es el número desde el que escribe el cliente y es obligatorio:
+    solo el titular de la boleta puede consultarla. Si no coincide se responde
+    igual que si la boleta no existiera, para no confirmar su existencia a un
+    tercero."""
     boleta = next((b for b in boletas if normalizar(b.numero_boleta) == normalizar(numero_boleta)), None)
-    if boleta is None:
+    if boleta is None or not mismo_telefono(boleta.telefono, telefono):
         return ResultadoGarantia(EstadoGarantia.BOLETA_NO_ENCONTRADA)
     if sku and normalizar(sku) != normalizar(boleta.sku):
         return ResultadoGarantia(EstadoGarantia.PRODUCTO_NO_COINCIDE, boleta=boleta)

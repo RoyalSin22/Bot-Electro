@@ -92,14 +92,16 @@ def test_boletas_apuntan_a_skus_existentes(prods, bols):
 
 
 def test_hay_casos_dentro_y_fuera_de_garantia(prods, bols):
-    estados = [n.evaluar_garantia(b.numero_boleta, bols, prods, CONFIG, g.FECHA_REFERENCIA).estado for b in bols]
+    estados = [n.evaluar_garantia(b.numero_boleta, bols, prods, CONFIG, g.FECHA_REFERENCIA, telefono=b.telefono).estado for b in bols]
     c = Counter(estados)
     assert set(c) == {EG.VIGENTE, EG.VENCIDA}
     assert c[EG.VIGENTE] == 9 and c[EG.VENCIDA] == 6
 
 
 def test_casos_limite_incluidos(prods, bols):
-    def ev(num): return n.evaluar_garantia(num, bols, prods, CONFIG, g.FECHA_REFERENCIA)
+    def ev(num):
+        tel = next(b.telefono for b in bols if b.numero_boleta == num)
+        return n.evaluar_garantia(num, bols, prods, CONFIG, g.FECHA_REFERENCIA, telefono=tel)
     assert ev("B001-0009").estado is EG.VIGENTE and ev("B001-0009").vence == g.FECHA_REFERENCIA  # vence hoy
     assert ev("B001-0008").estado is EG.VENCIDA and (g.FECHA_REFERENCIA - ev("B001-0008").vence).days == 3
 
